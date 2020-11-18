@@ -14,9 +14,10 @@ public class Minefield
 	private boolean wonGame;
 	private boolean lostGame;
 	private boolean gameOver;
-	private int cellsLeftToClick = 71; // cells - mines, must be 0 to win the game
+	private int cellsLeftToClick; //number of non-mine cells that must be clicked to win the game
 	private int columns;
 	private int rows;
+	private int numOfMines;
 
 	/**
 	 * Starts a new minefield game with a board of dimension rows x columns. and initializes the fields.
@@ -26,21 +27,26 @@ public class Minefield
 	 */
 	public Minefield(int rows, int columns)
 	{
-		this.wonGame = false;
-		this.lostGame = false;
-		this.gameOver = false;
-		this.rows = rows;
-		this.columns = columns;
+		wonGame = false;
+		lostGame = false;
+		gameOver = false;
 		
+		//limit the size of the minefield board
 		if(rows < 9 || rows > 100)
 		{
 			this.rows = 9;
 		}
 		if(columns < 9 || columns  > 100)
 		{
-			this.columns = 100;
+			this.columns = 9;
+		}
+		else
+		{
+			this.rows = rows;
+			this.columns = columns;
 		}
 		
+		//initialize the minefield board
 		for (int r = 0; r < this.rows; r++)
 		{
 			for (int c = 0; c < this.columns; c++)
@@ -48,15 +54,42 @@ public class Minefield
 				board.add(new Cell(0, r, c));
 			}
 		}
-
-		// set the mines
+		
+		setNumberOfMines();
+		cellsLeftToClick = (rows * columns) - numOfMines;
+		
 		layMines();
-
-		// have cells identify neighbors to count the number of mines they touch
 		countNeighboringMines();
 
 	}
 
+	/**
+	 * Sets the number of mines depending on the size of the Minefield board.
+	 * The number of mines range from 10 mines to 200.
+	 */
+	private void setNumberOfMines()
+	{
+		int numberOfCells = columns * rows;
+		
+		if(numberOfCells < 100)
+		{
+			this.numOfMines = 10;
+		}
+		else if(numberOfCells < 256)
+		{
+			this.numOfMines = 40;
+		}
+		else if(numberOfCells < 480)
+		{
+			this.numOfMines = 99;
+		}
+		else
+		{
+			this.numOfMines = 200;
+		}
+		
+	}
+	
 	/**
 	 * Determines the value of the current cell by seeing how many mines it is
 	 * touching.
@@ -86,10 +119,10 @@ public class Minefield
 	}
 
 	/**
-	 * Returns a list of Cells that touch the current one.
+	 * Returns a list of Cells that touches the current one.
 	 * 
 	 * @param position The current Cell's position on the board that we need the neighbors of
-	 * @return Returns A list of this Cell's neighbors
+	 * @return Returns a list of this Cell's neighbors
 	 */
 	public List<Cell> getNeighbors(int position)
 	{
@@ -156,7 +189,7 @@ public class Minefield
 	 * Set the mines on the board.
 	 */
 	private void layMines()
-	{
+	{ 
 		board.get(0).setValue(9);
 		board.get(12).setValue(9);
 		board.get(30).setValue(9);
@@ -208,6 +241,7 @@ public class Minefield
 	 * Updates how many cells still need to be shown that are not mines. When
 	 * this reaches zero and a mine has not been clicked then the game is won.
 	 * 
+	 * @param cellsShown Number of non-mine cells that have been clicked
 	 */
 	public void updateCellsLeftToClick()
 	{
@@ -215,8 +249,8 @@ public class Minefield
 
 		if(cellsLeftToClick == 0)
 		{
-			this.wonGame = true;
-			this.gameOver = true;
+			wonGame = true;
+			gameOver = true;
 		}
 	}
 
@@ -226,8 +260,8 @@ public class Minefield
 	 */
 	private void setLostGame()
 	{
-		this.lostGame = true;
-		this.gameOver = true;
+		lostGame = true;
+		gameOver = true;
 
 		for (Cell c : getBoard())
 		{
@@ -246,6 +280,11 @@ public class Minefield
 	public boolean getIfGameOver()
 	{
 		return gameOver;
+	}
+	
+	public int getNumberOfMines()
+	{
+		return numOfMines;
 	}
 
 	/**
@@ -433,6 +472,6 @@ public class Minefield
 		}
 		
 
-	}
-*/
+	}*/
+
 }
