@@ -11,5 +11,5 @@ Also, the createButton() method needs the exact styling you picked out for the n
 On the drawBoard() method I've left notes where you can add the styling for the flagged, shown, and mine buttons.  You can make these separate methods if you want.
 We might technically be able to get rid of drawBoard all together and do the modifications in the leftClick and rightClick methods if we want.  See what you think
 
-Also added a getNumberOfFlagsLaid() to the Minefield class.  This can be called from the game status JLabel by doing mineFieldBoard.getGame().getNumberofFlagsLaid();
+Also added a getNumberOfFlagsLaid() to the Minefield class.  This can be called from the game status JLabel by doing mineFieldBoard.getGame().getNumberOfFlagsLaid();
 It updates everytime a cell is flagged so you just need to update the status.
