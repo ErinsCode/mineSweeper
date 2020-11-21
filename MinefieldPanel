@@ -1,6 +1,8 @@
 package minesweeperGame;
 
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class MinefieldPanel extends JPanel
 
 	private Minefield game;
 	private List<JButton> buttons;
+	private MinesweeperWindow parentComponent;
 
 	/**
 	 * Creates the panel so that it is a row x column grid. For a 9 x 9 game :
@@ -30,8 +33,9 @@ public class MinefieldPanel extends JPanel
 	 * Takes a Minefield game and dynamically creates the cells of the Minefiled
 	 * and represents them as buttons on the panel.
 	 */
-	public MinefieldPanel(int row, int column)
+	public MinefieldPanel(MinesweeperWindow p, int row, int column)
 	{
+		parentComponent = p;
 		game = new Minefield(row, column);
 		buttons = new ArrayList<>();
 
@@ -53,10 +57,12 @@ public class MinefieldPanel extends JPanel
 	 * 
 	 * @param buttonNumber The number of button this is in the buttons List.
 	 *                     This allows us to map the button to its corresponding
-	 *                     Minefiled cell based on their placement in the the game board
-	 *                     list and the button list as they will match up.
-	 *                     
-	 * @return Returns a button that will interacte with a specific minefield cell in the game
+	 *                     Minefiled cell based on their placement in the the
+	 *                     game board list and the button list as they will
+	 *                     match up.
+	 * 
+	 * @return Returns a button that will interacte with a specific minefield
+	 *         cell in the game
 	 */
 	public JButton createButton(int buttonNumber)
 	{
@@ -69,38 +75,47 @@ public class MinefieldPanel extends JPanel
 			}
 		});
 
-		// button. add listener (maybe mouse listener) for right click button when it is called
+		// button. add listener (maybe mouse listener) for right click button
+		// when it is called
 		// call rightClick(buttonNumber);
-		
-		//might have to change actionListener for leftClick to mouseListener as well
+
+		// might have to change actionListener for leftClick to mouseListener as
+		// well
 
 		return button;
 	}
 
 	/**
-	 * Flags or unflags a minefield cell.   
-	 * @param correspondingCell Specifies which element (cell) in the minefield board needs to be flagged
+	 * Flags or unflags a minefield cell.
+	 * 
+	 * @param correspondingCell Specifies which element (cell) in the minefield
+	 *                          board needs to be flagged
 	 */
 	public void rightClick(int correspondingCell)
 	{
 		game.flagCell(correspondingCell);
 		drawBoard();
+		tellParent();
 	}
 
 	/**
 	 * Steps on a minefield cell
-	 * @param correspondingCell Specifies which element (cell) in the minefield board needs to be stepped on
+	 * 
+	 * @param correspondingCell Specifies which element (cell) in the minefield
+	 *                          board needs to be stepped on
 	 * 
 	 */
 	public void leftClick(int correspondingCell)
 	{
 		game.stepOnCell(correspondingCell);
 		drawBoard();
+		tellParent();
 
 	}
 
 	/**
-	 * Draws the minefield.  Cells that are visible (have been stepped on) or flagged appear different than other cells
+	 * Draws the minefield. Cells that are visible (have been stepped on) or
+	 * flagged appear different than other cells
 	 */
 	public void drawBoard()
 	{
@@ -132,13 +147,32 @@ public class MinefieldPanel extends JPanel
 				}
 				else
 				{
-					// replace this with the button style you have for a number cell that has been clicked
-					currentButton.setText(currentCell.getValue() + ""); 
-					
+					// replace this with the button style you have for a number
+					// cell that has been clicked
+					currentButton.setText(currentCell.getValue() + "");
+
 				}
 			}
 		}
 
 	}
 
+	/**
+	 * Returns the Minefield game board.
+	 * @return Returns Minefield game
+	 */
+	public Minefield getGameBoard()
+	{
+		return game;
+	}
+
+/**
+ * Calls the updateGameStatus method of the MinesweeperWindow every time 
+ * a cell is clicked.  Allows the MinesweeperWindow to use this information to 
+ * update information in other components.
+ */
+	public void tellParent()
+	{
+		parentComponent.updateGameStatus();
+	}
 }
