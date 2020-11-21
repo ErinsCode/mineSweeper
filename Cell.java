@@ -1,178 +1,123 @@
-package minesweeperGame;
-
-import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
+package teamproject;
 
 /**
- * Takes a minefield board and draws it out in a grid of buttons. These buttons
- * can be "stepped on" (clicked) to show the value of the cell below it. Flags
- * can also be flagged to prevent stepping on them.
+ * A minesweeper cell.
  * 
  * @author Erin Mortensen
- * @author Dana Kendall
  *
  */
-public class MinefieldPanel extends JPanel
+public class Cell
 {
-
-	private Minefield game;
-	private List<JButton> buttons;
-	private MinesweeperWindow parentComponent;
+	int value;
+	boolean isFlagged;
+	boolean isVisible;
+	int xCoordinate;
+	int yCoordinate;
 
 	/**
-	 * Creates the panel so that it is a row x column grid. For a 9 x 9 game :
-	 * MinefieldPanel(9,9);
+	 * Initializes the value of the cell. If the value is 9 then the cell holds
+	 * a mine. Values 0 - 8 stand for the number of mines that the cell touches.
 	 * 
-	 * Takes a Minefield game and dynamically creates the cells of the Minefiled
-	 * and represents them as buttons on the panel.
+	 * @param value Value of the cell. 9 is a mine, and 0-8 represents the number of mines it touches.
 	 */
-	public MinefieldPanel(MinesweeperWindow p, int row, int column)
+	public Cell(int value, int x, int y)
 	{
-		parentComponent = p;
-		game = new Minefield(row, column);
-		buttons = new ArrayList<>();
-
-		setLayout(new GridLayout(row, column, 1, 1));
-
-		for (int c = 0; c < game.getBoard().size(); c++)
-		{
-			buttons.add(createButton(c));
-			add(buttons.get(c));
-
-		}
-
+		this.value = value;
+		this.xCoordinate = x;
+		this.yCoordinate = y;
+		this.isFlagged = false;
+		this.isVisible = false;
 	}
 
 	/**
-	 * Creates a button for each individual minefield cell. Each button is given
-	 * action listeners for what to do if they are right clicked or left
-	 * clicked.
 	 * 
-	 * @param buttonNumber The number of button this is in the buttons List.
-	 *                     This allows us to map the button to its corresponding
-	 *                     Minefiled cell based on their placement in the the
-	 *                     game board list and the button list as they will
-	 *                     match up.
-	 * 
-	 * @return Returns a button that will interacte with a specific minefield
-	 *         cell in the game
+	 * @param value Value of the cell. 9 is a mine, and 0-8 represents the number of mines it touches.
+	 * @param isFlagged Flags the cell so that individual knows that a mine is underneath
+	 * @param isVisable Says if the user can see the value of the cell or not, or if it is covered.
 	 */
-	public JButton createButton(int buttonNumber)
+	public Cell(int value, int x, int y, boolean isFlagged, boolean isVisable)
 	{
-		JButton button = new JButton(" ");
-		button.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				leftClick(buttonNumber);
-			}
-		});
-
-		// button. add listener (maybe mouse listener) for right click button
-		// when it is called
-		// call rightClick(buttonNumber);
-
-		// might have to change actionListener for leftClick to mouseListener as
-		// well
-
-		return button;
+		this(value, x, y);
+		this.isFlagged = isFlagged;
+		this.isVisible = isVisable;
 	}
 
 	/**
-	 * Flags or unflags a minefield cell.
+	 * Gets the value of the mine.
 	 * 
-	 * @param correspondingCell Specifies which element (cell) in the minefield
-	 *                          board needs to be flagged
+	 * @return the mines value
 	 */
-	public void rightClick(int correspondingCell)
+	public int getValue()
 	{
-		game.flagCell(correspondingCell);
-		drawBoard();
-		tellParent();
+		return value;
 	}
 
 	/**
-	 * Steps on a minefield cell
+	 * Updates the cells value.
 	 * 
-	 * @param correspondingCell Specifies which element (cell) in the minefield
-	 *                          board needs to be stepped on
-	 * 
+	 * @param value Sets the new value of the cell. 9 makes the cell a mine, 0-8
+	 *              stands for the number of other mines that this cell is
+	 *              touching.
 	 */
-	public void leftClick(int correspondingCell)
+	public void setValue(int value)
 	{
-		game.stepOnCell(correspondingCell);
-		drawBoard();
-		tellParent();
-
+		this.value += value;
 	}
 
 	/**
-	 * Draws the minefield. Cells that are visible (have been stepped on) or
-	 * flagged appear different than other cells
+	 * Returns if the cell has been flagged
+	 * 
+	 * @return the if cell is flagged
 	 */
-	public void drawBoard()
+	public boolean isFlagged()
 	{
-		for (int cell = 0; cell < buttons.size(); cell++)
-		{
-			Cell currentCell = game.getBoard().get(cell);
-			JButton currentButton = buttons.get(cell);
-
-			if(currentCell.isFlagged())
-			{
-				currentButton.setText("F"); // replace this with the button
-											// style you picked for a flagged
-											// button
-				// maybe make an extracted method for it
-			}
-			else
-			{
-				currentButton.setText(" "); // need to undo the flag if
-											// previously flagged
-				// replace this with the button style you picked for a regular
-				// non-clicked button
-			}
-			if(currentCell.isVisable())
-			{
-				if(currentCell.getValue() == 9)
-				{
-					currentButton.setText("*"); // replace this with button
-												// style for mine
-				}
-				else
-				{
-					// replace this with the button style you have for a number
-					// cell that has been clicked
-					currentButton.setText(currentCell.getValue() + "");
-
-				}
-			}
-		}
-
+		return isFlagged;
 	}
 
 	/**
-	 * Returns the Minefield game board.
-	 * @return Returns Minefield game
+	 * Changes if the cell is flagged or not.
+	 * 
+	 * @param isFlagged sets if the cell is flagged.
 	 */
-	public Minefield getGameBoard()
+	public void setFlagged(boolean isFlagged)
 	{
-		return game;
+		this.isFlagged = isFlagged;
 	}
 
-/**
- * Calls the updateGameStatus method of the MinesweeperWindow every time 
- * a cell is clicked.  Allows the MinesweeperWindow to use this information to 
- * update information in other components.
- */
-	public void tellParent()
+	/**
+	 * Returns if the cell's value is visible.
+	 * 
+	 * @return the if cell is visible.
+	 */
+	public boolean isVisable()
 	{
-		parentComponent.updateGameStatus();
+		return isVisible;
 	}
+
+	/**
+	 * Sets the visibility of the cell's value.
+	 * 
+	 * @param isVisable If the visibility is true or false.
+	 */
+	public void setVisable(boolean isVisable)
+	{
+		this.isVisible = isVisable;
+	}
+
+	/**
+	 * @return the xCoordinate
+	 */
+	public int getxCoordinate()
+	{
+		return xCoordinate;
+	}
+
+	/**
+	 * @return the yCoordinate
+	 */
+	public int getyCoordinate()
+	{
+		return yCoordinate;
+	}
+
 }
