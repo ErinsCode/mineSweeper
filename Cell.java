@@ -1,4 +1,4 @@
-package teamproject;
+package teamProject;
 
 /**
  * A minesweeper cell.
