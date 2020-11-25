@@ -25,6 +25,7 @@ import java.awt.GridLayout;
  * @author Dana Kendall
  *
  */
+@SuppressWarnings("serial")
 public class MineFieldPanel extends JPanel {
 	//fields
 	private Minefield game;
@@ -35,8 +36,11 @@ public class MineFieldPanel extends JPanel {
 	 * Creates the panel so that it is a row x column grid. For a 9 x 9 game :
 	 * MinefieldPanel(9,9);
 	 * 
-	 * Takes a Minefield game and dynamically creates the cells of the Minefiled
+	 * Takes a Minefield game and dynamically creates the cells of the Minefield
 	 * and represents them as buttons on the panel.
+	 * @param parentWindow		the MinesweeperWindow to place the MineFieldPanel into
+	 * @param row	the number of rows in the panel
+	 * @param column	the number of columns in the panel
 	 */
 	public MineFieldPanel(MinesweeperWindow parentWindow, int row, int column) {
 		game = new Minefield(row, column);
@@ -64,10 +68,10 @@ public class MineFieldPanel extends JPanel {
 	 * 
 	 * @param buttonNumber The number of button this is in the buttons List.
 	 *                     This allows us to map the button to its corresponding
-	 *                     Minefiled cell based on their placement in the the game board
+	 *                     Minefield cell based on their placement in the the game board
 	 *                     list and the button list as they will match up.
 	 *                     
-	 * @return Returns a button that will interacte with a specific minefield cell in the game
+	 * @return Returns a button that will interact with a specific minefield cell in the game
 	 */
 	public JButton createButton(int buttonNumber)
 	{
@@ -113,11 +117,6 @@ public class MineFieldPanel extends JPanel {
 
 		});
 
-		// button. add listener (maybe mouse listener) for right click button when it is called
-		// call rightClick(buttonNumber);
-		
-		//might have to change actionListener for leftClick to mouseListener as well
-
 		return button;
 	}
 
@@ -160,6 +159,7 @@ public class MineFieldPanel extends JPanel {
 						"/images/flagIcon.png"))); 
 				currentButton.setHorizontalAlignment(SwingConstants.LEFT);
 				
+				//Mark flagged non-bombs with X
 				if (game.getIfGameOver() && currentCell.getValue() != 9) {
 					currentButton.setText("X");
 					currentButton.setIcon(null);
@@ -167,22 +167,23 @@ public class MineFieldPanel extends JPanel {
 			}
 			else
 			{
-				currentButton.setText(" "); // need to undo the flag if
-											// previously flagged
-				// replace this with the button style you picked for a regular
-				// non-clicked button
+				currentButton.setIcon(null);
+				currentButton.setText(" "); 
 			}
-			if(currentCell.isVisable())
+			if(currentCell.isVisible())
 			{
 				if(currentCell.getValue() == 9)
 				{
-					currentButton.setText("*"); // replace this with button
-												// style for mine
+					currentButton.setIcon(new ImageIcon(MineFieldPanel.class.getResource(
+							"/images/mineIcon.png")));
+					currentButton.setText(null);
+					//Alignment not working here
+					currentButton.setHorizontalAlignment(SwingConstants.CENTER);
 				}
 				else
 				{
-					// replace this with the button style you have for a number cell that has been clicked
 					currentButton.setText(currentCell.getValue() + ""); 
+					currentButton.setBackground(new Color(185,185,185)); 
 					
 				}
 			}
@@ -190,6 +191,10 @@ public class MineFieldPanel extends JPanel {
 
 	}
 	
+	/**
+	 * Returns the Minefield game board
+	 * @return Minefield game board 
+	 */
 	public Minefield getGameBoard() {
 		return this.game;
 	}
