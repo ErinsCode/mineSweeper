@@ -11,7 +11,6 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 
 /**
@@ -20,6 +19,7 @@ import javax.swing.BoxLayout;
  * @author Dana Kendall
  * @author Erin Mortensen
  */
+@SuppressWarnings("serial")
 public class MinesweeperWindow extends JFrame {
 
 	//fields
@@ -73,15 +73,6 @@ public class MinesweeperWindow extends JFrame {
 		contentPane.add(mineFieldBoard);
 		
 	}
-
-	
-	/**
-	 * Creates the mine field panel.
-	 * @return the mine field of type MineFieldPanel
-	 */
-	/*public MineFieldPanel createMineFieldBoard() {
-		
-	}*/
 	
 	/**
 	 * Creates the menu bar panel.
@@ -90,7 +81,6 @@ public class MinesweeperWindow extends JFrame {
 	private MenuBarPanel createMenuBar() {
 		MenuBarPanel menuBar = new MenuBarPanel();
 		menuBar.setAlignmentX(0.6f);
-		FlowLayout flowLayout = (FlowLayout) menuBar.getLayout();
 		return menuBar;
 	}
 	
@@ -103,7 +93,7 @@ public class MinesweeperWindow extends JFrame {
 		trackerPanel.setBounds(0,0,200,40);
 		trackerPanel.setPreferredSize(new Dimension(200, 40));
 		trackerPanel.setMinimumSize(new Dimension(200, 40));
-		setMaximumSize(new Dimension(200, 40));
+		trackerPanel.setMaximumSize(new Dimension(200, 40));
 		return trackerPanel;
 	}
 	
@@ -114,9 +104,9 @@ public class MinesweeperWindow extends JFrame {
 	private JLabel createMineTracker() {
 		JLabel mineTracker = new JLabel("10");
 		mineTracker.setForeground(Color.RED);
-		mineTracker.setMinimumSize(new Dimension(70, 35));
-		mineTracker.setMaximumSize(new Dimension(70, 35));
-		mineTracker.setPreferredSize(new Dimension(70, 35));
+		mineTracker.setMinimumSize(new Dimension(140, 35));
+		mineTracker.setMaximumSize(new Dimension(140, 35));
+		mineTracker.setPreferredSize(new Dimension(140, 35));
 		mineTracker.setBorder(new EmptyBorder(0, 0, 0, 0));
 		mineTracker.setBackground(Color.DARK_GRAY);
 		mineTracker.setOpaque(true);
