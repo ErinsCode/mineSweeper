@@ -19,6 +19,8 @@ public class Cell
 	 * a mine. Values 0 - 8 stand for the number of mines that the cell touches.
 	 * 
 	 * @param value Value of the cell. 9 is a mine, and 0-8 represents the number of mines it touches.
+	 * @param x		the x coordinate for the cell
+	 * @param y		the y coordinate for the cell
 	 */
 	public Cell(int value, int x, int y)
 	{
@@ -30,22 +32,26 @@ public class Cell
 	}
 
 	/**
+	 * Initializes the value of the cell. If the value is 9 then the cell holds
+	 * a mine. Values 0 - 8 stand for the number of mines that the cell touches.
 	 * 
 	 * @param value Value of the cell. 9 is a mine, and 0-8 represents the number of mines it touches.
+	 * @param x		the x coordinate for the cell
+	 * @param y		the y coordinate for the cell
 	 * @param isFlagged Flags the cell so that individual knows that a mine is underneath
-	 * @param isVisable Says if the user can see the value of the cell or not, or if it is covered.
+	 * @param isVisible Says if the user can see the value of the cell or not, or if it is covered.
 	 */
-	public Cell(int value, int x, int y, boolean isFlagged, boolean isVisable)
+	public Cell(int value, int x, int y, boolean isFlagged, boolean isVisible)
 	{
 		this(value, x, y);
 		this.isFlagged = isFlagged;
-		this.isVisible = isVisable;
+		this.isVisible = isVisible;
 	}
 
 	/**
 	 * Gets the value of the mine.
 	 * 
-	 * @return the mines value
+	 * @return the mine's value
 	 */
 	public int getValue()
 	{
@@ -53,7 +59,7 @@ public class Cell
 	}
 
 	/**
-	 * Updates the cells value.
+	 * Updates the cell's value.
 	 * 
 	 * @param value Sets the new value of the cell. 9 makes the cell a mine, 0-8
 	 *              stands for the number of other mines that this cell is
@@ -67,7 +73,7 @@ public class Cell
 	/**
 	 * Returns if the cell has been flagged
 	 * 
-	 * @return the if cell is flagged
+	 * @return boolean describing if cell is flagged
 	 */
 	public boolean isFlagged()
 	{
@@ -77,7 +83,7 @@ public class Cell
 	/**
 	 * Changes if the cell is flagged or not.
 	 * 
-	 * @param isFlagged sets if the cell is flagged.
+	 * @param isFlagged 	boolean describing if the cell is flagged.
 	 */
 	public void setFlagged(boolean isFlagged)
 	{
@@ -87,9 +93,9 @@ public class Cell
 	/**
 	 * Returns if the cell's value is visible.
 	 * 
-	 * @return the if cell is visible.
+	 * @return boolean describing if cell is visible.
 	 */
-	public boolean isVisable()
+	public boolean isVisible()
 	{
 		return isVisible;
 	}
@@ -97,15 +103,16 @@ public class Cell
 	/**
 	 * Sets the visibility of the cell's value.
 	 * 
-	 * @param isVisable If the visibility is true or false.
+	 * @param isVisible 	boolean describing if cell is visible
 	 */
-	public void setVisable(boolean isVisable)
+	public void setVisible(boolean isVisible)
 	{
-		this.isVisible = isVisable;
+		this.isVisible = isVisible;
 	}
 
 	/**
-	 * @return the xCoordinate
+	 * Returns the x coordinate of the cell
+	 * @return the xCoordinate int
 	 */
 	public int getxCoordinate()
 	{
@@ -113,7 +120,8 @@ public class Cell
 	}
 
 	/**
-	 * @return the yCoordinate
+	 * Returns the y coordinate of the cell
+	 * @return the yCoordinate int
 	 */
 	public int getyCoordinate()
 	{
