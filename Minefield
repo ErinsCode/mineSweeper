@@ -72,7 +72,7 @@ public class Minefield
 	 */
 	private void setNumberOfMines()
 	{
-		int numberOfCells = columns * rows;
+		//int numberOfCells = columns * rows;
 		
 		numOfMines = 10;
 		
@@ -248,8 +248,6 @@ public class Minefield
 	/**
 	 * Updates how many cells still need to be shown that are not mines. When
 	 * this reaches zero and a mine has not been clicked then the game is won.
-	 * 
-	 * @param cellsShown Number of non-mine cells that have been clicked
 	 */
 	public void updateCellsLeftToClick()
 	{
@@ -275,7 +273,7 @@ public class Minefield
 		{
 			if(c.getValue() == 9 && c.isFlagged == false)
 			{
-				c.setVisable(true);
+				c.setVisible(true);
 			}
 		}
 
@@ -323,12 +321,12 @@ public class Minefield
 	{
 		Cell clickedCell = board.get(cellClicked);
 		
-		if(clickedCell.isFlagged() || clickedCell.isVisable() || getIfGameOver())
+		if(clickedCell.isFlagged() || clickedCell.isVisible() || getIfGameOver())
 		{
 			return;
 		}
 
-		clickedCell.setVisable(true);
+		clickedCell.setVisible(true);
 
 		if(clickedCell.getValue() == 9)
 		{
@@ -358,12 +356,13 @@ public class Minefield
 
 	/**
 	 * Flag or unflag a Cell.  You can only flag a Cell that is not visible.
+	 * @param celltoBeFlagged	the Cell object to flag
 	 */
 	public void flagCell(int cellToBeFlagged)
 	{
 		Cell cellToFlag = board.get(cellToBeFlagged);
 		
-		if(cellToFlag.isVisable())
+		if(cellToFlag.isVisible())
 		{
 			return;
 		}
@@ -384,57 +383,57 @@ public class Minefield
 	 * Used for testing the minefield class with the terminal.
 	 * Prints the minefield board, but shows all the values
 	 */
-	private void printBoardShowValues()
-	{
-		int row = 0;
-		for (int x = 0; x < rows; x++)
-		{
-			for (int y = 0; y < columns; y++)
-			{
-				System.out.print(getBoard().get(row).getValue() + " ");
-				row++;
-			}
-
-			System.out.println();
-
-		}
-	}
+//	private void printBoardShowValues()
+//	{
+//		int row = 0;
+//		for (int x = 0; x < rows; x++)
+//		{
+//			for (int y = 0; y < columns; y++)
+//			{
+//				System.out.print(getBoard().get(row).getValue() + " ");
+//				row++;
+//			}
+//
+//			System.out.println();
+//
+//		}
+//	}
 
 	/**
 	 * Used for testing the minefield class in the terminal.
 	 * See minefield if not visible hides the value of the cell, shows flagged cells
 	 */
-	private void printMineField()
-	{
-		int row = 0;
-		for (int x = 0; x < rows; x++)
-		{
-			for (int y = 0; y < columns; y++)
-			{
-				if(getBoard().get(row).isVisible == false)
-				{
-					if(getBoard().get(row).isFlagged == true)
-					{
-						System.out.print("F ");
-					}
-					else
-					{
-						System.out.print("- ");
-					}
-
-				}
-				else
-				{
-					System.out.print(getBoard().get(row).getValue() + " ");
-				}
-
-				row++;
-			}
-
-			System.out.println();
-
-		}
-	}
+//	private void printMineField()
+//	{
+//		int row = 0;
+//		for (int x = 0; x < rows; x++)
+//		{
+//			for (int y = 0; y < columns; y++)
+//			{
+//				if(getBoard().get(row).isVisible == false)
+//				{
+//					if(getBoard().get(row).isFlagged == true)
+//					{
+//						System.out.print("F ");
+//					}
+//					else
+//					{
+//						System.out.print("- ");
+//					}
+//
+//				}
+//				else
+//				{
+//					System.out.print(getBoard().get(row).getValue() + " ");
+//				}
+//
+//				row++;
+//			}
+//
+//			System.out.println();
+//
+//		}
+//	}
 /*
 //Allows you to test the funcionality of the game in the terminal
 	public static void main(String[] args)
