@@ -71,7 +71,6 @@ public class MinesweeperWindow extends JFrame {
 		mineFieldBoard = new MineFieldPanel(this,9,9);
 		mineFieldBoard.setBorder(new EmptyBorder(20, 15, 20, 15));
 		contentPane.add(mineFieldBoard);
-		
 	}
 	
 	/**
@@ -79,7 +78,7 @@ public class MinesweeperWindow extends JFrame {
 	 * @return the menu bar of type MenuBarPanel
 	 */
 	private MenuBarPanel createMenuBar() {
-		MenuBarPanel menuBar = new MenuBarPanel();
+		MenuBarPanel menuBar = new MenuBarPanel(this);
 		menuBar.setAlignmentX(0.6f);
 		return menuBar;
 	}
@@ -135,6 +134,30 @@ public class MinesweeperWindow extends JFrame {
 		}
 	}
 	
+	/**
+	 * Returns the MineFieldPanel.
+	 * @return MineFieldPanel game
+	 */
+	public MineFieldPanel getGame()
+	{
+		return mineFieldBoard;
+	}
+		
+	/**
+	 * Updates the MinesweeperWindow so that it has an updated
+	 * MineField game / MineFieldPanel.
+	 * @param the MineFieldPanel we need to replace the current MineFieldPanel with
+	 */
+	public void updateMinesweeperWindow(MineFieldPanel gameBoard)
+	{
+	
+		contentPane.remove(mineFieldBoard);
+		this.mineFieldBoard = gameBoard;
+		contentPane.add(mineFieldBoard);
+		updateMineTracker();
+		mineFieldBoard.drawBoard();
+	}
 	
 }
+
 
