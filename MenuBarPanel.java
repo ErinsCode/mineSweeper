@@ -154,21 +154,9 @@ public class MenuBarPanel extends JPanel {
 		cells.add(new Cell(0,1,3,true, false));
 		
 		MineField game = new MineField(row, column, cells);
-		
 		MineFieldPanel gameBoard = new MineFieldPanel(parentWindow, row, column, game);
 		
-		/*
-		 * how do we want to set up the loaded game?  Do we want
-		 * a method in MinesweeperWindow that sets the MineFieldPanel, or
-		 * do we want to just have an overloaded constructor that deals with this?
-		 * 
-		parentWindow.setMineFieldPanel(gameBoard);
-		
-		
-		*/
-		
-
-		
+		parentWindow.updateMinesweeperWindow(gameBoard);
 		
 	}
 	
