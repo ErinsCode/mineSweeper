@@ -28,7 +28,7 @@ import java.awt.GridLayout;
 @SuppressWarnings("serial")
 public class MineFieldPanel extends JPanel {
 	//fields
-	private Minefield game;
+	private MineField game;
 	private List<JButton> buttons;
 	private MinesweeperWindow parentWindow;
 
@@ -43,7 +43,7 @@ public class MineFieldPanel extends JPanel {
 	 * @param column	the number of columns in the panel
 	 */
 	public MineFieldPanel(MinesweeperWindow parentWindow, int row, int column) {
-		game = new Minefield(row, column);
+		game = new MineField(row, column);
 		buttons = new ArrayList<>();
 		this.parentWindow = parentWindow;
 
@@ -59,6 +59,32 @@ public class MineFieldPanel extends JPanel {
 
 		}
 		
+	}
+	
+	/**
+	 * Creates a panel for a pre-existing Minefield game and assigns buttons to it.
+	 * @param parentWindow the MinesweeperWindow to place the MineFieldPanel into
+	 * @param row the number of rows in the panel
+	 * @param column the number of columns in the panel
+	 * @param game an ongoing MineField game
+	 */
+	public MineFieldPanel(MinesweeperWindow parentWindow, int row, int column, MineField game)
+	{
+		this.game = game;
+		this.buttons = new ArrayList<>();
+		this.parentWindow = parentWindow;
+		
+		setLayout(new GridLayout(row, column, 0, 0));
+		//panel border not working??
+		setBorder(new LineBorder(new Color(169,169,169), 2));
+				
+		for (int c = 0; c < this.game.getBoard().size(); c++)
+		{
+			buttons.add(createButton(c));
+			
+			add(buttons.get(c));
+
+		}
 	}
 	
 	/**
@@ -162,6 +188,8 @@ public class MineFieldPanel extends JPanel {
 				//Mark flagged non-bombs with X
 				if (game.getIfGameOver() && currentCell.getValue() != 9) {
 					currentButton.setText("X");
+					currentButton.setHorizontalAlignment(SwingConstants.CENTER);
+					currentButton.setForeground(Color.RED);
 					currentButton.setIcon(null);
 				}
 			}
@@ -184,6 +212,7 @@ public class MineFieldPanel extends JPanel {
 				{
 					currentButton.setText(currentCell.getValue() + ""); 
 					currentButton.setBackground(new Color(185,185,185)); 
+					currentButton.setForeground(Color.BLACK);
 					
 				}
 			}
@@ -195,9 +224,10 @@ public class MineFieldPanel extends JPanel {
 	 * Returns the Minefield game board
 	 * @return Minefield game board 
 	 */
-	public Minefield getGameBoard() {
+	public MineField getGameBoard() {
 		return this.game;
 	}
 
 }
+
 
