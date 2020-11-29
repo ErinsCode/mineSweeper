@@ -113,7 +113,7 @@ public class MineField
 	private void setNumberOfMines()
 	{
 		//int numberOfCells = columns * rows;
-		
+
 		numOfMines = 10;
 		
 		/*
