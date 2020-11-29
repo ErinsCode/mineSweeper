@@ -8,7 +8,7 @@ import java.util.*;
  * @author Erin Mortensen
  *
  */
-public class Minefield
+public class MineField
 {
 	private List<Cell> board;
 	private boolean wonGame;
@@ -26,7 +26,7 @@ public class Minefield
 	 * @param rows Number of cell rows for the minefield board will have.
 	 * @param columns Number of cell columns for the nimefield board.  Cannot exceed 100
 	 */
-	public Minefield(int rows, int columns)
+	public MineField(int rows, int columns)
 	{
 		board = new ArrayList<>();
 		wonGame = false;
@@ -65,6 +65,46 @@ public class Minefield
 		countNeighboringMines();
 
 	}
+	
+	/**
+	 * Starts a minefield game from pre-existing cells with a board of dimension rows x columns, and initializes the fields.
+	 * @param rows Number of cell rows for the minefield board will have.
+	 * @param columns Number of cell columns for the minefield board.
+	 * @param cells a List of cells that will be assigned to this game
+	 */
+	public MineField(int rows, int columns, List<Cell> cells)
+	{
+		this.rows = rows;
+		this.columns = columns;
+		this.board = cells;
+		this.wonGame = false;
+		this.lostGame = false;
+		this.gameOver = false;
+		
+		this.cellsLeftToClick = rows * columns;
+		this.numberOfFlagsLaid = 0;
+		this.numOfMines = 0;
+		
+		for(Cell c : cells)
+		{
+			if(c.isFlagged())
+			{
+				numberOfFlagsLaid++;
+			}
+			
+			if(c.getValue() == 9)
+			{
+				numOfMines++;
+			}		
+			
+			if(c.isVisible() || c.getValue() == 9)
+			{
+				cellsLeftToClick--;
+			}
+		}
+		
+		
+	}
 
 	/**
 	 * Sets the number of mines depending on the size of the Minefield board.
@@ -73,7 +113,7 @@ public class Minefield
 	private void setNumberOfMines()
 	{
 		//int numberOfCells = columns * rows;
-		
+
 		numOfMines = 10;
 		
 		/*
