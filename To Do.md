@@ -1,15 +1,18 @@
 # mineSweeper
 Basic Minesweeper Game
 
+New Game
 
-I added the minefieldPanel class so that it is now properly setting buttons dynamically.  Have set it already so that it is in the gridLayout.
-The constructor now takes in  ints, rows and columns.  When you initialize it in the MinesweeperWindow you will need to set it to MinefieldPanel(9,9);
+Load Game
 
-A right click action listener (possibly mouseListener) needs to be added to each button.  The left click may need to be changed from actionListener to mouseListener.
-Also, the createButton() method needs the exact styling you picked out for the non-visible buttons.
+Save Game
+ -need to add toString methods to MineField and Cell
 
-On the drawBoard() method I've left notes where you can add the styling for the flagged, shown, and mine buttons.  You can make these separate methods if you want.
-We might technically be able to get rid of drawBoard all together and do the modifications in the leftClick and rightClick methods if we want.  See what you think
-
-Also added a getNumberOfFlagsLaid() to the Minefield class.  This can be called from the game status JLabel by doing mineFieldBoard.getGame().getNumberOfFlagsLaid();
-It updates everytime a cell is flagged so you just need to update the status.
+Think about adding enum for BEGINNER, INTERMEDIATE, EXPERT
+ - adding this to the MinesweeperWindow constructor to determine rows/columns used
+   Beginner = MineFieldPanel(this, 9, 9);
+   Intermediate = MineFieldPanel(this, 16, 16);
+   Expert = MineFieldPanel(this, 16, 30);
+- Would need to incorporate in the new, load, and save game buttons.  
+  Could have private Level field in MinesweeperWindow.  Have new and save game get this from MinesweeperWindow
+- Would need to add Level selector to menuBar (how to do dropdown)
