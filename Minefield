@@ -115,13 +115,12 @@ public class MineField
 	{
 		int numberOfCells = columns * rows;
 		
-		numOfMines = 10;
-		
 		
 		 /* In future, not necessarily for this assignment
 		 * we can make the number of mines variable based on the size of the
 		 * board
 		 * */
+		
 		  if(numberOfCells < 101)
 		{
 			this.numOfMines = 10;
