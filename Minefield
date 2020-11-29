@@ -1,4 +1,4 @@
-package minesweeperGame;
+package teamProject;
 
 import java.util.*;
 
@@ -8,9 +8,9 @@ import java.util.*;
  * @author Erin Mortensen
  *
  */
-public class Minefield
+public class MineField
 {
-	private List<Cell> board = new ArrayList<>();
+	private List<Cell> board;
 	private boolean wonGame;
 	private boolean lostGame;
 	private boolean gameOver;
@@ -18,6 +18,7 @@ public class Minefield
 	private int columns;
 	private int rows;
 	private int numOfMines;
+	private int numberOfFlagsLaid;
 
 	/**
 	 * Starts a new minefield game with a board of dimension rows x columns. and initializes the fields.
@@ -25,11 +26,13 @@ public class Minefield
 	 * @param rows Number of cell rows for the minefield board will have.
 	 * @param columns Number of cell columns for the nimefield board.  Cannot exceed 100
 	 */
-	public Minefield(int rows, int columns)
+	public MineField(int rows, int columns)
 	{
+		board = new ArrayList<>();
 		wonGame = false;
 		lostGame = false;
 		gameOver = false;
+		numberOfFlagsLaid = 0;
 		
 		//limit the size of the minefield board
 		if(rows < 9 || rows > 100)
@@ -62,6 +65,46 @@ public class Minefield
 		countNeighboringMines();
 
 	}
+	
+	/**
+	 * Starts a minefield game from pre-existing cells with a board of dimension rows x columns, and initializes the fields.
+	 * @param rows Number of cell rows for the minefield board will have.
+	 * @param columns Number of cell columns for the minefield board.
+	 * @param cells a List of cells that will be assigned to this game
+	 */
+	public MineField(int rows, int columns, List<Cell> cells)
+	{
+		this.rows = rows;
+		this.columns = columns;
+		this.board = cells;
+		this.wonGame = false;
+		this.lostGame = false;
+		this.gameOver = false;
+		
+		this.cellsLeftToClick = rows * columns;
+		this.numberOfFlagsLaid = 0;
+		this.numOfMines = 0;
+		
+		for(Cell c : cells)
+		{
+			if(c.isFlagged())
+			{
+				numberOfFlagsLaid++;
+			}
+			
+			if(c.getValue() == 9)
+			{
+				numOfMines++;
+			}		
+			
+			if(c.isVisible() || c.getValue() == 9)
+			{
+				cellsLeftToClick--;
+			}
+		}
+		
+		
+	}
 
 	/**
 	 * Sets the number of mines depending on the size of the Minefield board.
@@ -69,9 +112,15 @@ public class Minefield
 	 */
 	private void setNumberOfMines()
 	{
-		int numberOfCells = columns * rows;
+		//int numberOfCells = columns * rows;
 		
-		if(numberOfCells < 100)
+		numOfMines = 10;
+		
+		/*
+		 * In future, not necessarily for this assignment
+		 * we can make the number of mines variable based on the size of the
+		 * board
+		 * if(numberOfCells < 101)
 		{
 			this.numOfMines = 10;
 		}
@@ -87,6 +136,8 @@ public class Minefield
 		{
 			this.numOfMines = 200;
 		}
+		
+		*/
 		
 	}
 	
@@ -130,10 +181,8 @@ public class Minefield
 		int x = position % columns;
 		int y = position / columns;
 
-		//int x = board.get(position).getxCoordinate();
-		//int y = board.get(position).getyCoordinate();
 
-		// get above
+		// get above cells
 		if(y > 0)
 		{
 			if(x > 0)
@@ -166,10 +215,9 @@ public class Minefield
 		// get below
 		if(y < rows - 1)
 		{
-			// lower right
+			// get lower right
 			if(x > 0)
 			{
-				// add lower left
 				neighbors.add(board.get(position + (columns - 1)));
 			}
 			// directly below
@@ -201,8 +249,8 @@ public class Minefield
 		board.get(79).setValue(9);
 		board.get(6).setValue(9);
 		
-		//to do, make it so it randomly sets mines.  have # of mines set
-		//based on rows * columns, have different mine # tiers
+		//to do, make it so it randomly sets mines.  use method
+		//setNumberOfMines() to determine how many mines to use
 
 	}
 
@@ -240,8 +288,6 @@ public class Minefield
 	/**
 	 * Updates how many cells still need to be shown that are not mines. When
 	 * this reaches zero and a mine has not been clicked then the game is won.
-	 * 
-	 * @param cellsShown Number of non-mine cells that have been clicked
 	 */
 	public void updateCellsLeftToClick()
 	{
@@ -267,7 +313,7 @@ public class Minefield
 		{
 			if(c.getValue() == 9 && c.isFlagged == false)
 			{
-				c.setVisable(true);
+				c.setVisible(true);
 			}
 		}
 
@@ -282,9 +328,24 @@ public class Minefield
 		return gameOver;
 	}
 	
+	/**
+	 * Returns the number of mines on the minefield.  This number does not change
+	 * as mines still exist even when they are flagged.
+	 * @return Returns the number of mines. Set at the beginning of the game.
+	 */
 	public int getNumberOfMines()
 	{
 		return numOfMines;
+	}
+	
+	
+	/**
+	 * Returns the number of cells who are flagged
+	 * @return Returns number of flags laid on the minefield
+	 */
+	public int getNumberOfFlagsLaid()
+	{
+		return numberOfFlagsLaid;
 	}
 
 	/**
@@ -300,12 +361,12 @@ public class Minefield
 	{
 		Cell clickedCell = board.get(cellClicked);
 		
-		if(clickedCell.isFlagged() || clickedCell.isVisable() || getIfGameOver())
+		if(clickedCell.isFlagged() || clickedCell.isVisible() || getIfGameOver())
 		{
 			return;
 		}
 
-		clickedCell.setVisable(true);
+		clickedCell.setVisible(true);
 
 		if(clickedCell.getValue() == 9)
 		{
@@ -335,22 +396,25 @@ public class Minefield
 
 	/**
 	 * Flag or unflag a Cell.  You can only flag a Cell that is not visible.
+	 * @param celltoBeFlagged	the Cell object to flag
 	 */
 	public void flagCell(int cellToBeFlagged)
 	{
 		Cell cellToFlag = board.get(cellToBeFlagged);
 		
-		if(cellToFlag.isVisable())
+		if(cellToFlag.isVisible())
 		{
 			return;
 		}
 		if(cellToFlag.isFlagged())
 		{
 			cellToFlag.setFlagged(false);
+			numberOfFlagsLaid--;
 		}
 		else
 		{
 			cellToFlag.setFlagged(true);
+			numberOfFlagsLaid++;
 		}
 
 	}
@@ -359,63 +423,63 @@ public class Minefield
 	 * Used for testing the minefield class with the terminal.
 	 * Prints the minefield board, but shows all the values
 	 */
-	private void printBoardShowValues()
-	{
-		int row = 0;
-		for (int x = 0; x < rows; x++)
-		{
-			for (int y = 0; y < columns; y++)
-			{
-				System.out.print(getBoard().get(row).getValue() + " ");
-				row++;
-			}
-
-			System.out.println();
-
-		}
-	}
+//	private void printBoardShowValues()
+//	{
+//		int row = 0;
+//		for (int x = 0; x < rows; x++)
+//		{
+//			for (int y = 0; y < columns; y++)
+//			{
+//				System.out.print(getBoard().get(row).getValue() + " ");
+//				row++;
+//			}
+//
+//			System.out.println();
+//
+//		}
+//	}
 
 	/**
 	 * Used for testing the minefield class in the terminal.
 	 * See minefield if not visible hides the value of the cell, shows flagged cells
 	 */
-	private void printMineField()
-	{
-		int row = 0;
-		for (int x = 0; x < rows; x++)
-		{
-			for (int y = 0; y < columns; y++)
-			{
-				if(getBoard().get(row).isVisible == false)
-				{
-					if(getBoard().get(row).isFlagged == true)
-					{
-						System.out.print("F ");
-					}
-					else
-					{
-						System.out.print("- ");
-					}
-
-				}
-				else
-				{
-					System.out.print(getBoard().get(row).getValue() + " ");
-				}
-
-				row++;
-			}
-
-			System.out.println();
-
-		}
-	}
-
-/* Allows you to test the funcionality of the game in the terminal
+//	private void printMineField()
+//	{
+//		int row = 0;
+//		for (int x = 0; x < rows; x++)
+//		{
+//			for (int y = 0; y < columns; y++)
+//			{
+//				if(getBoard().get(row).isVisible == false)
+//				{
+//					if(getBoard().get(row).isFlagged == true)
+//					{
+//						System.out.print("F ");
+//					}
+//					else
+//					{
+//						System.out.print("- ");
+//					}
+//
+//				}
+//				else
+//				{
+//					System.out.print(getBoard().get(row).getValue() + " ");
+//				}
+//
+//				row++;
+//			}
+//
+//			System.out.println();
+//
+//		}
+//	}
+/*
+//Allows you to test the funcionality of the game in the terminal
 	public static void main(String[] args)
 	{
 		
-		Minefield game = new Minefield(9, 9);
+		Minefield game = new Minefield(11, 11);
 		List<Cell> cells = game.getNeighbors(62);
 		
 		for(Cell c : cells)
@@ -473,5 +537,4 @@ public class Minefield
 		
 
 	}*/
-
 }
