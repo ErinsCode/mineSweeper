@@ -210,7 +210,13 @@ public class MineFieldPanel extends JPanel {
 				}
 				else
 				{
-					currentButton.setText(currentCell.getValue() + ""); 
+					if(currentCell.getValue() != 0)
+					{
+						currentButton.setText(currentCell.getValue() + ""); 
+						
+					}
+					
+					currentButton.setHorizontalAlignment(SwingConstants.CENTER);
 					currentButton.setBackground(new Color(185,185,185)); 
 					currentButton.setForeground(Color.BLACK);
 					
@@ -229,5 +235,3 @@ public class MineFieldPanel extends JPanel {
 	}
 
 }
-
-
