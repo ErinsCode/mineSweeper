@@ -19,6 +19,7 @@ public class MineField
 	private int rows;
 	private int numOfMines;
 	private int numberOfFlagsLaid;
+	private Random random = new Random();
 
 	/**
 	 * Starts a new minefield game with a board of dimension rows x columns. and initializes the fields.
@@ -112,15 +113,16 @@ public class MineField
 	 */
 	private void setNumberOfMines()
 	{
-		//int numberOfCells = columns * rows;
-
+		int numberOfCells = columns * rows;
+		
 		numOfMines = 10;
 		
-		/*
-		 * In future, not necessarily for this assignment
+		
+		 /* In future, not necessarily for this assignment
 		 * we can make the number of mines variable based on the size of the
 		 * board
-		 * if(numberOfCells < 101)
+		 * */
+		  if(numberOfCells < 101)
 		{
 			this.numOfMines = 10;
 		}
@@ -137,7 +139,7 @@ public class MineField
 			this.numOfMines = 200;
 		}
 		
-		*/
+		
 		
 	}
 	
@@ -238,6 +240,23 @@ public class MineField
 	 */
 	private void layMines()
 	{ 
+		int minesLeftToLay = numOfMines;
+		int randomNumber; 
+		
+		while(minesLeftToLay > 0)
+		{
+			randomNumber = random.nextInt(rows * columns);
+			
+			if(board.get(randomNumber).getValue() != 9)
+			{
+				board.get(randomNumber).setValue(9);
+				minesLeftToLay--;
+			}
+		}
+		
+		
+		
+		/*
 		board.get(0).setValue(9);
 		board.get(12).setValue(9);
 		board.get(30).setValue(9);
@@ -247,7 +266,7 @@ public class MineField
 		board.get(80).setValue(9);
 		board.get(64).setValue(9);
 		board.get(79).setValue(9);
-		board.get(6).setValue(9);
+		board.get(6).setValue(9);*/
 		
 		//to do, make it so it randomly sets mines.  use method
 		//setNumberOfMines() to determine how many mines to use
