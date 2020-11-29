@@ -43,7 +43,7 @@ public class MineFieldPanel extends JPanel {
 	 * @param column	the number of columns in the panel
 	 */
 	public MineFieldPanel(MinesweeperWindow parentWindow, int row, int column) {
-		game = new MineField(row, column);
+		this.game = new MineField(row, column);
 		buttons = new ArrayList<>();
 		this.parentWindow = parentWindow;
 
@@ -58,7 +58,7 @@ public class MineFieldPanel extends JPanel {
 			add(buttons.get(c));
 
 		}
-		
+
 	}
 	
 	/**
@@ -221,6 +221,11 @@ public class MineFieldPanel extends JPanel {
 					currentButton.setForeground(Color.BLACK);
 					
 				}
+			}
+			if(!currentCell.isVisible() && !currentCell.isFlagged())
+			{
+				currentButton.setIcon(null);
+				currentButton.setText("");
 			}
 		}
 
