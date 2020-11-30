@@ -274,3 +274,4 @@ public class MineFieldPanel extends JPanel
 	}
 
 }
+
