@@ -127,5 +127,14 @@ public class Cell
 	{
 		return yCoordinate;
 	}
+	
+	/**
+	 * Returns the cell details in string format
+	 * @return String describing Cell details
+	 */
+	@Override
+	public String toString() {
+		return (value + "," + xCoordinate + "," + yCoordinate + "," + isFlagged + "," + isVisible);
+	}
 
 }

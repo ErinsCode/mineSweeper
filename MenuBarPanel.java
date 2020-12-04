@@ -2,6 +2,7 @@ package teamProject;
 
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import java.io.PrintWriter;
 
 import javax.swing.border.EmptyBorder;
 
@@ -11,7 +12,8 @@ import javax.swing.JOptionPane;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -44,7 +46,7 @@ public class MenuBarPanel extends JPanel
 	public MenuBarPanel(MinesweeperWindow parentWindow)
 	{
 		setOpaque(false);
-		setBackground(Color.ORANGE);
+		setBackground(new Color(238,238,238));
 		setBounds(0, 0, 200, 30);
 		setPreferredSize(new Dimension(200, 30));
 		setMinimumSize(new Dimension(200, 30));
@@ -73,14 +75,15 @@ public class MenuBarPanel extends JPanel
 	private JButton createNewGameButton()
 	{
 		JButton newGameButton = new JButton("New Game");
+		newGameButton.setBorderPainted(false);
 		newGameButton.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		newGameButton.setBorder(null);
+		newGameButton.setBackground(new Color(238,238,238));
 		newGameButton.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-
-				// TO DO: Start new game
+				startNewGame();
 			}
 		});
 		newGameButton.setHorizontalTextPosition(SwingConstants.LEFT);
@@ -96,13 +99,15 @@ public class MenuBarPanel extends JPanel
 	private JButton createSaveButton()
 	{
 		JButton saveButton = new JButton("Save");
+		saveButton.setBorderPainted(false);
 		saveButton.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		saveButton.setBorder(null);
+		saveButton.setBackground(new Color(238,238,238));
 		saveButton.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				// TO DO: Save game
+				saveGame();
 			}
 		});
 		return saveButton;
@@ -116,8 +121,10 @@ public class MenuBarPanel extends JPanel
 	private JButton createLoadButton()
 	{
 		JButton loadButton = new JButton("Load");
+		loadButton.setBorderPainted(false);
 		loadButton.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		loadButton.setBorder(null);
+		loadButton.setBackground(new Color(238,238,238));
 		loadButton.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -135,8 +142,15 @@ public class MenuBarPanel extends JPanel
 	 */
 	public void startNewGame()
 	{
+		int row = 9;
+		int column = 9;
 
+		MineField game = new MineField(9, 9);
+		MineFieldPanel gameBoard = new MineFieldPanel(parentWindow, row, column, game);
+
+		parentWindow.updateMinesweeperWindow(gameBoard);
 	}
+
 
 	/**
 	 * Saves a game to a text file.
@@ -153,6 +167,25 @@ public class MenuBarPanel extends JPanel
 		}
 
 		// to do save game
+		String myFile = "src/fileIOTextFiles/minesweeperSavedGame.txt";
+		MineField game = parentWindow.getGame().getGameBoard();
+		File savedFile = new File(myFile);
+		
+		try(PrintWriter writer = new PrintWriter(savedFile))
+		{
+			writer.println(game.getRows() + "," + game.getColumns());
+			 for (Cell c : game.getBoard()) {
+				 writer.println(c);
+			 }
+			 
+			 JOptionPane.showMessageDialog(null,"Game saved"); 
+			 writer.close();
+		}  
+				
+		catch (FileNotFoundException e) {
+			createLoadGameError("Cannot save file");
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -163,9 +196,9 @@ public class MenuBarPanel extends JPanel
 		int row = 0;
 		int column = 0;
 		List<Cell> cells = new ArrayList<>();
+		File savedFile = new File("src/fileIOTextFiles/minesweeperSavedGame.txt");
 
-		try (Scanner input = new Scanner(MenuBarPanel.class
-				.getResourceAsStream("/images/minesweeperSavedGame.txt")))
+		try (Scanner input = new Scanner(savedFile))
 		{
 			// parse first line
 			String rowsColumns = input.nextLine();
@@ -184,7 +217,7 @@ public class MenuBarPanel extends JPanel
 				}
 
 			}
-
+			
 			if(cells.size() != (row * column))
 			{
 				throw new NullPointerException("Corrupted saved file");
@@ -220,6 +253,9 @@ public class MenuBarPanel extends JPanel
 		{
 			createLoadGameError("Saved file is empty");
 
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 
 

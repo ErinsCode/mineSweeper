@@ -150,10 +150,14 @@ public class MinesweeperWindow extends JFrame {
 	 */
 	public void updateMinesweeperWindow(MineFieldPanel gameBoard)
 	{
-	
+		
 		contentPane.remove(mineFieldBoard);
+		mineFieldBoard.setVisible(false);
 		this.mineFieldBoard = gameBoard;
+		
 		contentPane.add(mineFieldBoard);
+		mineFieldBoard.setBorder(new EmptyBorder(20, 15, 20, 15));
+		mineFieldBoard.setVisible(true);
 		updateMineTracker();
 		mineFieldBoard.drawBoard();
 	}
