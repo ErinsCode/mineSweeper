@@ -41,8 +41,7 @@ public class MineFieldPanel extends JPanel
 	 * Takes a Minefield game and dynamically creates the cells of the Minefield
 	 * and represents them as buttons on the panel.
 	 * 
-	 * @param parentWindow the MinesweeperWindow to place the MineFieldPanel
-	 *                     into
+	 * @param parentWindow the MinesweeperWindow to place the MineFieldPanel into
 	 * @param row          the number of rows in the panel
 	 * @param column       the number of columns in the panel
 	 * @throws IllegalArgumnetException rows and columns cannot be zero
@@ -76,8 +75,7 @@ public class MineFieldPanel extends JPanel
 	 * Creates a panel for a pre-existing Minefield game and assigns buttons to
 	 * it.
 	 * 
-	 * @param parentWindow the MinesweeperWindow to place the MineFieldPanel
-	 *                     into
+	 * @param parentWindow the MinesweeperWindow to place the MineFieldPanel into
 	 * @param row          the number of rows in the panel
 	 * @param column       the number of columns in the panel
 	 * @param game         an ongoing MineField game
@@ -283,4 +281,6 @@ public class MineFieldPanel extends JPanel
 	}
 
 }
+
+
 
