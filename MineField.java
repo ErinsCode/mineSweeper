@@ -129,14 +129,11 @@ public class MineField
 		{
 			this.numOfMines = 40;
 		}
-		else if(numberOfCells < 480)
+		else
 		{
 			this.numOfMines = 99;
 		}
-		else
-		{
-			this.numOfMines = 200;
-		}
+		
 		
 		
 		
@@ -253,23 +250,6 @@ public class MineField
 			}
 		}
 		
-		
-		
-		/*
-		board.get(0).setValue(9);
-		board.get(12).setValue(9);
-		board.get(30).setValue(9);
-		board.get(26).setValue(9);
-		board.get(60).setValue(9);
-		board.get(42).setValue(9);
-		board.get(80).setValue(9);
-		board.get(64).setValue(9);
-		board.get(79).setValue(9);
-		board.get(6).setValue(9);*/
-		
-		//to do, make it so it randomly sets mines.  use method
-		//setNumberOfMines() to determine how many mines to use
-
 	}
 
 	/**
@@ -454,122 +434,5 @@ public class MineField
 		return columns;
 	}
 
-	/**
-	 * Used for testing the minefield class with the terminal.
-	 * Prints the minefield board, but shows all the values
-	 */
-//	private void printBoardShowValues()
-//	{
-//		int row = 0;
-//		for (int x = 0; x < rows; x++)
-//		{
-//			for (int y = 0; y < columns; y++)
-//			{
-//				System.out.print(getBoard().get(row).getValue() + " ");
-//				row++;
-//			}
-//
-//			System.out.println();
-//
-//		}
-//	}
-
-	/**
-	 * Used for testing the minefield class in the terminal.
-	 * See minefield if not visible hides the value of the cell, shows flagged cells
-	 */
-//	private void printMineField()
-//	{
-//		int row = 0;
-//		for (int x = 0; x < rows; x++)
-//		{
-//			for (int y = 0; y < columns; y++)
-//			{
-//				if(getBoard().get(row).isVisible == false)
-//				{
-//					if(getBoard().get(row).isFlagged == true)
-//					{
-//						System.out.print("F ");
-//					}
-//					else
-//					{
-//						System.out.print("- ");
-//					}
-//
-//				}
-//				else
-//				{
-//					System.out.print(getBoard().get(row).getValue() + " ");
-//				}
-//
-//				row++;
-//			}
-//
-//			System.out.println();
-//
-//		}
-//	}
-/*
-//Allows you to test the funcionality of the game in the terminal
-	public static void main(String[] args)
-	{
-		
-		Minefield game = new Minefield(11, 11);
-		List<Cell> cells = game.getNeighbors(62);
-		
-		for(Cell c : cells)
-		{
-			System.out.println(c.getxCoordinate() * game.columns + c.getyCoordinate());
-		}
-		
-		Scanner input = new Scanner(System.in);
-		int selection;
-		int toFlag = 0;
-
-		game.printBoardShowValues();
-		System.out.println();
-
-		while (!game.gameOver)
-		{
-			game.printMineField();
-			
-			System.out.println("Would you like to flag a cell (enter 0) or stepOnCell (enter 1)");
-			toFlag = input.nextInt();
-			
-			if(toFlag == 0)
-			{
-				System.out.println("Enter cell to flag");
-				selection = input.nextInt();
-				game.flagCell(selection);
-				System.out.println();
-				
-			}
-			
-			else
-			{
-				System.out.println("Enter cell to select");
-				selection = input.nextInt();
-
-				game.stepOnCell(selection);
-				System.out.println();
-			}
-			
-			
-
-		}
-
-		if(game.getIfLost())
-		{
-			System.out.println("Sorry you lost");
-			game.printMineField();
-		}
-
-		if(game.getIfWonGame())
-		{
-			System.out.println("Hurray! You won!");
-			game.printMineField(); 
-		}
-		
-
-	}*/
+	
 }
