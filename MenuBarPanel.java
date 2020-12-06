@@ -3,16 +3,10 @@ package teamProject;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import java.io.PrintWriter;
-import java.net.URL;
-
 import javax.swing.border.EmptyBorder;
-
-import com.sun.tools.javac.Main;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -170,7 +164,7 @@ public class MenuBarPanel extends JPanel
 		
 		
 		// to do save game
-		String myFile = "src/fileIOTextFiles/minesweeperSavedGame.txt";
+		String myFile = "minesweeperSavedGame.txt";
 		MineField game = parentWindow.getGame().getGameBoard();
 		File savedFile = new File(myFile);
 		
@@ -200,7 +194,7 @@ public class MenuBarPanel extends JPanel
 		int column = 0;
 		List<Cell> cells = new ArrayList<>();
 		File savedFile = new File(
-				"src/fileIOTextFiles/minesweeperSavedGame.txt");
+				"minesweeperSavedGame.txt");
 
 		try (Scanner input = new Scanner(savedFile))
 		{
