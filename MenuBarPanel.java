@@ -258,8 +258,7 @@ public class MenuBarPanel extends JPanel
 	 */
 	private void createLoadGameError(String message)
 	{
-		JOptionPane optionPane = new JOptionPane(message,
-				JOptionPane.ERROR_MESSAGE);
+		JOptionPane optionPane = new JOptionPane(message, JOptionPane.ERROR_MESSAGE);
 		JDialog dialog = optionPane.createDialog("Error");
 		dialog.setAlwaysOnTop(true);
 		dialog.setVisible(true);
