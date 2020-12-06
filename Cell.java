@@ -137,4 +137,3 @@ public class Cell
 		return (value + "," + xCoordinate + "," + yCoordinate + "," + isFlagged + "," + isVisible);
 	}
 
-}
